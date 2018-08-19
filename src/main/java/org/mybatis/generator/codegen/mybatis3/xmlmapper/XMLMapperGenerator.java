@@ -34,6 +34,7 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGe
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ResultMapWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ResultMapWithoutBLOBsElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectAllByParamsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByExampleWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByExampleWithoutBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByPrimaryKeyElementGenerator;
@@ -235,7 +236,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     protected void addSelectAllByParams(
             XmlElement parentElement) {
         if (true) {
-            AbstractXmlElementGenerator elementGenerator = new UpdateByPrimaryKeySelectiveElementGenerator();
+            AbstractXmlElementGenerator elementGenerator = new SelectAllByParamsElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }

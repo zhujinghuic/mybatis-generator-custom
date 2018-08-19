@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.mybatis.generator.api.IntrospectedTable;
+
 /**
  * The Class FullyQualifiedJavaType.
  *
@@ -82,8 +84,14 @@ public class FullyQualifiedJavaType implements
         typeArguments = new ArrayList<FullyQualifiedJavaType>();
         parse(fullTypeSpecification);
     }
-
-    public boolean isExplicitlyImported() {
+    
+    public FullyQualifiedJavaType(String fullTypeSpecification,String returnType) {
+        super();
+        typeArguments = new ArrayList<FullyQualifiedJavaType>();
+        parse(fullTypeSpecification,returnType);
+    }
+    
+	public boolean isExplicitlyImported() {
         return explicitlyImported;
     }
 
@@ -388,6 +396,46 @@ public class FullyQualifiedJavaType implements
             isArray = fullTypeSpecification.endsWith("]"); //$NON-NLS-1$
         }
     }
+    
+    private void parse(String fullTypeSpecification,String returnType) {
+        String spec = fullTypeSpecification.trim();
+
+        if (spec.startsWith("?")) { //$NON-NLS-1$
+            wildcardType = true;
+            spec = spec.substring(1).trim();
+            if (spec.startsWith("extends ")) { //$NON-NLS-1$
+                boundedWildcard = true;
+                extendsBoundedWildcard = true;
+                spec = spec.substring(8);  // "extends ".length()
+            } else if (spec.startsWith("super ")) { //$NON-NLS-1$
+                boundedWildcard = true;
+                extendsBoundedWildcard = false;
+                spec = spec.substring(6);  // "super ".length()
+            } else {
+                boundedWildcard = false;
+            }
+            parse(spec,returnType);
+        } else {
+            int index = fullTypeSpecification.indexOf('<');
+            if (index == -1) {
+                simpleParse(fullTypeSpecification,returnType);
+            } else {
+                simpleParse(fullTypeSpecification.substring(0, index),returnType);
+                int endIndex = fullTypeSpecification.lastIndexOf('>');
+                if (endIndex == -1) {
+                    throw new RuntimeException(getString(
+                            "RuntimeError.22", fullTypeSpecification)); //$NON-NLS-1$
+                }
+                genericParse(fullTypeSpecification.substring(index, endIndex + 1));
+            }
+
+            // this is far from a perfect test for detecting arrays, but is close
+            // enough for most cases.  It will not detect an improperly specified
+            // array type like byte], but it will detect byte[] and byte[   ]
+            // which are both valid
+            isArray = fullTypeSpecification.endsWith("]"); //$NON-NLS-1$
+        }
+    }
 
     private void simpleParse(String typeSpecification) {
         baseQualifiedName = typeSpecification.trim();
@@ -444,6 +492,70 @@ public class FullyQualifiedJavaType implements
         }
     }
 
+    private void simpleParse(String typeSpecification,String returnType) {
+        baseQualifiedName = typeSpecification.trim();
+        if (baseQualifiedName.contains(".")) { //$NON-NLS-1$
+            packageName = getPackage(baseQualifiedName);
+            baseShortName = baseQualifiedName
+                    .substring(packageName.length() + 1);
+            int index = baseShortName.lastIndexOf('.');
+            if (index != -1) {
+                baseShortName = baseShortName.substring(index + 1);
+            }
+
+            if(baseShortName.equals("List")) {
+            	baseShortName = "List<" + returnType + ">" ;
+            }
+            
+            if (JAVA_LANG.equals(packageName)) { //$NON-NLS-1$
+                explicitlyImported = false;
+            } else {
+                explicitlyImported = true;
+            }
+        } else {
+            baseShortName = baseQualifiedName;
+            
+            if(baseShortName.equals("List")) {
+            	baseShortName = "List<" + returnType + ">" ;
+            }
+            
+            explicitlyImported = false;
+            packageName = ""; //$NON-NLS-1$
+
+            if ("byte".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper.getByteInstance();
+            } else if ("short".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper.getShortInstance();
+            } else if ("int".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper
+                        .getIntegerInstance();
+            } else if ("long".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper.getLongInstance();
+            } else if ("char".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper
+                        .getCharacterInstance();
+            } else if ("float".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper.getFloatInstance();
+            } else if ("double".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper.getDoubleInstance();
+            } else if ("boolean".equals(baseQualifiedName)) { //$NON-NLS-1$
+                primitive = true;
+                primitiveTypeWrapper = PrimitiveTypeWrapper
+                        .getBooleanInstance();
+            } else {
+                primitive = false;
+                primitiveTypeWrapper = null;
+            }
+        }
+    }
+    
     private void genericParse(String genericSpecification) {
         int lastIndex = genericSpecification.lastIndexOf('>');
         if (lastIndex == -1) {
