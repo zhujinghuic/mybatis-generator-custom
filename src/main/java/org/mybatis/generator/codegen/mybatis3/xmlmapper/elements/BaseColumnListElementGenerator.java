@@ -17,11 +17,14 @@ package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
 import java.util.Iterator;
 
+import org.apache.tools.ant.util.StringUtils;
+import org.hsqldb.lib.StringUtil;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
+import org.mybatis.generator.internal.util.StringUtility;
 
 /**
  * 
@@ -47,13 +50,21 @@ public class BaseColumnListElementGenerator extends AbstractXmlElementGenerator 
         Iterator<IntrospectedColumn> iter = introspectedTable
                 .getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
-            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter
-                    .next()));
-
+        	String column = MyBatis3FormattingUtilities.getSelectListPhrase(iter
+                    .next());
+        	
+        	if(column == null) {
+        		String str = sb.substring(0, sb.length()-1);
+        		sb = new StringBuilder(str);
+        		continue;
+        	}
+        	
+            sb.append(column);
+            
             if (iter.hasNext()) {
                 sb.append(", "); //$NON-NLS-1$
             }
-
+            
             if (sb.length() > 80) {
                 answer.addElement(new TextElement(sb.toString()));
                 sb.setLength(0);

@@ -116,9 +116,13 @@ public class MyBatis3FormattingUtilities {
     public static String getEscapedColumnName(
             IntrospectedColumn introspectedColumn) {
         StringBuilder sb = new StringBuilder();
-        sb.append(escapeStringForMyBatis3(introspectedColumn
-                .getActualColumnName()));
-
+        String temp = escapeStringForMyBatis3(introspectedColumn
+                .getActualColumnName());
+        //过滤不需要显示的字段
+        if(temp.trim().equals("gmt_create") || temp.trim().equals("gmt_modified")) {
+        	return null;
+        }
+        sb.append(temp);
         if (introspectedColumn.isColumnNameDelimited()) {
             sb.insert(0, introspectedColumn.getContext()
                     .getBeginningDelimiter());
