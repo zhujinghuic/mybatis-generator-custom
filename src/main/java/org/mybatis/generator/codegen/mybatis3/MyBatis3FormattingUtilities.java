@@ -102,7 +102,7 @@ public class MyBatis3FormattingUtilities {
             }
             return sb.toString();
         } else {
-            return getEscapedColumnName(introspectedColumn);
+            return getEscapedColumnName2(introspectedColumn);
         }
     }
 
@@ -114,6 +114,22 @@ public class MyBatis3FormattingUtilities {
      * @return the escaped column name
      */
     public static String getEscapedColumnName(
+            IntrospectedColumn introspectedColumn) {
+        StringBuilder sb = new StringBuilder();
+        String temp = escapeStringForMyBatis3(introspectedColumn
+                .getActualColumnName());
+        //过滤不需要显示的字段
+        sb.append(temp);
+        if (introspectedColumn.isColumnNameDelimited()) {
+            sb.insert(0, introspectedColumn.getContext()
+                    .getBeginningDelimiter());
+            sb.append(introspectedColumn.getContext().getEndingDelimiter());
+        }
+
+        return sb.toString();
+    }
+    
+    public static String getEscapedColumnName2(
             IntrospectedColumn introspectedColumn) {
         StringBuilder sb = new StringBuilder();
         String temp = escapeStringForMyBatis3(introspectedColumn
