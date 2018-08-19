@@ -116,12 +116,6 @@ public abstract class PluginAdapter implements Plugin {
     }
     
     @Override
-    public boolean clientDeleteByPrimaryKeyLogicMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable) {
-        return true;
-    }
-
-    @Override
     public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method,
             TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
         return true;

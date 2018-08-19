@@ -48,7 +48,7 @@ public class SelectByPrimaryKeyMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
 
         FullyQualifiedJavaType returnType = introspectedTable.getRules()
-                .calculateAllFieldsClass();
+                .calculateAllFieldsClassDTO();
         method.setReturnType(returnType);
         importedTypes.add(returnType);
 

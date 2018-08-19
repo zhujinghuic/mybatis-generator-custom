@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration
-  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
-  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
-<generatorConfiguration>
-	<!-- 引入配置文件 -->
-<!-- 	<properties resource="classpath:properties/jdbc.properties"/>   -->
-    <properties resource="properties/jdbc.properties"/>
-    <context id="test" targetRuntime="MyBatis3">
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" > 
+<generatorConfiguration> 
+ 
+	<!-- 引入配置文件 --> 
+	<!-- 指定数据连接驱动jar地址 --> 
+	<classPathEntry location="G:\java\maven\.m2\repository\mysql\mysql-connector-java\5.1.38\mysql-connector-java-5.1.38.jar" /> 
+   <context id="test" targetRuntime="MyBatis3">
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"></plugin>  
         <!-- JavaBean 实现 序列化 接口 -->
 		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
@@ -36,8 +35,8 @@
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
         <!--数据库链接URL，用户名、密码 -->
-        <jdbcConnection driverClass="${driverClass}"
-            connectionURL="${jdbcUrl}" userId="${user}" password="${password}">
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://localhost:3306/jceshop" userId="root" password="123456">  
             </jdbcConnection>
         <javaTypeResolver>
             <!-- This property is used to specify whether MyBatis Generator should 
@@ -45,17 +44,17 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
         <!-- 生成模型的包名和位置 -->
-        <javaModelGenerator targetPackage="${modelGenerator}" targetProject="src/main/java/">
+        <javaModelGenerator targetPackage="com.eshop.model" targetProject="src/main/java/">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置 -->
-        <sqlMapGenerator targetPackage="${mapGenerator}" targetProject="src/main/resources/"  >
+        <sqlMapGenerator targetPackage="com.eshop.model" targetProject="src/main/java/"  >
 <!--             <property name="enableSubPackages" value="true" /> -->
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-            targetPackage="${daoGenerator}"  targetProject="src/main/java/">
+            targetPackage="com.eshop.model"  targetProject="src/main/java/">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- <javaClientGenerator type="SPRING"
@@ -66,10 +65,10 @@
         </javaClientGenerator> -->
         
         <!-- 要生成哪些表 -->
-        <table tableName="${tableName}" enableCountByExample="false" enableUpdateByExample="false"
+        <table tableName="sys_role_function" enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
-               enableDeleteByPrimaryKey="true" domainObjectName="${objName}">
-            <property name="useActualColumnNames" value="${useActualColumnNames}"/><!-- 按照字段原来的样式生成属性不进行下划线或大小写处理 -->
+               enableDeleteByPrimaryKey="true" domainObjectName="SysRoleFunction">
+            <property name="useActualColumnNames" value="false"/><!-- 按照字段原来的样式生成属性不进行下划线或大小写处理 -->
             <generatedKey column="id" sqlStatement="Mysql"/>
              <!-- 需要忽略生成那些字段 -->
 <!--         	<ignoreColumn column="create_time" delimitedColumnName=""/> -->

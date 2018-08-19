@@ -56,31 +56,42 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 "Progress.8", table.toString())); //$NON-NLS-1$
         Plugin plugins = context.getPlugins();
         CommentGenerator commentGenerator = context.getCommentGenerator();
+        
 
         FullyQualifiedJavaType type = new FullyQualifiedJavaType(
                 introspectedTable.getBaseRecordType());
+        FullyQualifiedJavaType type2 = new FullyQualifiedJavaType(
+                introspectedTable.getReturnMainRecordType());
         TopLevelClass topLevelClass = new TopLevelClass(type);
+        TopLevelClass topLevelClass2 = new TopLevelClass(type2);
         topLevelClass.setVisibility(JavaVisibility.PUBLIC);
+        topLevelClass2.setVisibility(JavaVisibility.PUBLIC);
         commentGenerator.addJavaFileComment(topLevelClass);
 
         FullyQualifiedJavaType superClass = getSuperClass();
         if (superClass != null) {
             topLevelClass.setSuperClass(superClass);
+            topLevelClass2.setSuperClass(superClass);
             topLevelClass.addImportedType(superClass);
+            topLevelClass2.addImportedType(superClass);
         }
         commentGenerator.addModelClassComment(topLevelClass, introspectedTable);
+        commentGenerator.addModelClassComment(topLevelClass2, introspectedTable);
 
         List<IntrospectedColumn> introspectedColumns = getColumnsInThisClass();
 
         if (introspectedTable.isConstructorBased()) {
             addParameterizedConstructor(topLevelClass, introspectedTable.getNonBLOBColumns());
+            addParameterizedConstructor(topLevelClass2, introspectedTable.getNonBLOBColumns());
 
             if (includeBLOBColumns()) {
                 addParameterizedConstructor(topLevelClass, introspectedTable.getAllColumns());
+                addParameterizedConstructor(topLevelClass2, introspectedTable.getAllColumns());
             }
 
             if (!introspectedTable.isImmutable()) {
                 addDefaultConstructor(topLevelClass);
+                addDefaultConstructor(topLevelClass2);
             }
         }
 
@@ -97,6 +108,8 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                     Plugin.ModelClassType.BASE_RECORD)) {
                 topLevelClass.addField(field);
                 topLevelClass.addImportedType(field.getType());
+                topLevelClass2.addField(field);
+                topLevelClass2.addImportedType(field.getType());
             }
 
             Method method = getJavaBeansGetter(introspectedColumn, context, introspectedTable);
@@ -104,6 +117,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                     introspectedColumn, introspectedTable,
                     Plugin.ModelClassType.BASE_RECORD)) {
                 topLevelClass.addMethod(method);
+                topLevelClass2.addMethod(method);
             }
 
             if (!introspectedTable.isImmutable()) {
@@ -112,6 +126,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                         introspectedColumn, introspectedTable,
                         Plugin.ModelClassType.BASE_RECORD)) {
                     topLevelClass.addMethod(method);
+                    topLevelClass2.addMethod(method);
                 }
             }
         }
@@ -120,6 +135,7 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
         if (context.getPlugins().modelBaseRecordClassGenerated(
                 topLevelClass, introspectedTable)) {
             answer.add(topLevelClass);
+            answer.add(topLevelClass2);
         }
         return answer;
     }

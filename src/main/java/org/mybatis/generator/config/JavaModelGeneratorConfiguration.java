@@ -72,6 +72,10 @@ public class JavaModelGeneratorConfiguration extends PropertyHolder {
         if (targetPackage != null) {
             answer.addAttribute(new Attribute("targetPackage", targetPackage)); //$NON-NLS-1$
         }
+        
+        if (dtoTargetPackage != null) {
+            answer.addAttribute(new Attribute("dto_targetPackage", dtoTargetPackage)); //$NON-NLS-1$
+        }
 
         if (targetProject != null) {
             answer.addAttribute(new Attribute("targetProject", targetProject)); //$NON-NLS-1$
@@ -90,6 +94,10 @@ public class JavaModelGeneratorConfiguration extends PropertyHolder {
         if (!stringHasValue(targetPackage)) {
             errors.add(getString("ValidationError.12", //$NON-NLS-1$
                     "JavaModelGenerator", contextId)); //$NON-NLS-1$
+        }
+        
+        if (!stringHasValue(dtoTargetPackage)) {
+            errors.add("quququuququququ"); //$NON-NLS-1$
         }
     }
 }

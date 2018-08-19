@@ -54,6 +54,8 @@ public interface Rules {
      * @return the type of the class that holds all fields
      */
     FullyQualifiedJavaType calculateAllFieldsClass();
+    
+    FullyQualifiedJavaType calculateAllFieldsClassDTO();
 
     /**
      * Implements the rule for generating the update by primary key without

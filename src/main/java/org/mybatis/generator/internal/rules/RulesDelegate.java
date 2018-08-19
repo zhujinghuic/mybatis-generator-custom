@@ -68,6 +68,12 @@ public class RulesDelegate implements Rules {
     public FullyQualifiedJavaType calculateAllFieldsClass() {
         return rules.calculateAllFieldsClass();
     }
+    
+	@Override
+	public FullyQualifiedJavaType calculateAllFieldsClassDTO() {
+		// TODO Auto-generated method stub
+		return rules.calculateAllFieldsClassDTO();
+	}
 
     @Override
     public boolean generateBaseRecordClass() {
@@ -198,4 +204,6 @@ public class RulesDelegate implements Rules {
     public boolean generateJavaClient() {
         return rules.generateJavaClient();
     }
+
+
 }

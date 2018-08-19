@@ -296,17 +296,6 @@ public interface Plugin {
      */
     boolean clientDeleteByPrimaryKeyMethodGenerated(Method method,
             Interface interfaze, IntrospectedTable introspectedTable);
-    
-    /**
-     * 逻辑删除
-     * 朱敬辉
-     * @param method
-     * @param interfaze
-     * @param introspectedTable
-     * @return
-     */
-    boolean clientDeleteByPrimaryKeyLogicMethodGenerated(Method method,
-            Interface interfaze, IntrospectedTable introspectedTable);
 
     /**
      * This method is called when the deleteByPrimaryKey method has been

@@ -29,7 +29,6 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BlobColumnListE
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.CountByExampleElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByExampleElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyElementGenerator;
-import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyLogicElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ExampleWhereClauseElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertSelectiveElementGenerator;
@@ -77,7 +76,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addSelectByExampleWithoutBLOBsElement(answer);
         addSelectByPrimaryKeyElement(answer);
         addDeleteByPrimaryKeyElement(answer);
-        addDeleteByPrimaryKeyLogicElement(answer);
+//        addDeleteByPrimaryKeyLogicElement(answer);
         addDeleteByExampleElement(answer);
         addInsertElement(answer);
         addInsertSelectiveElement(answer);
@@ -175,10 +174,10 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     }
     
     protected void addDeleteByPrimaryKeyLogicElement(XmlElement parentElement) {
-        if (introspectedTable.getRules().generateDeleteByPrimaryKey()) {
-            AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyLogicElementGenerator(false);
-            initializeAndExecuteGenerator(elementGenerator, parentElement);
-        }
+//        if (introspectedTable.getRules().generateDeleteByPrimaryKey()) {
+//            AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyLogicElementGenerator(false);
+//            initializeAndExecuteGenerator(elementGenerator, parentElement);
+//        }
     }
 
     protected void addInsertElement(XmlElement parentElement) {

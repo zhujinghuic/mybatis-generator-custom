@@ -597,11 +597,11 @@ public class MyBatisGeneratorConfigurationParser {
 
         Properties attributes = parseAttributes(node);
         String targetPackage = attributes.getProperty("targetPackage"); //$NON-NLS-1$
-        String dto_targetPackage = attributes.getProperty("dto_targetPackage"); //$NON-NLS-1$
+//        String dto_targetPackage = attributes.getProperty("dto_targetPackage"); //$NON-NLS-1$
         String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
 
         javaModelGeneratorConfiguration.setTargetPackage(targetPackage);
-        javaModelGeneratorConfiguration.setDtoTargetPackage(dto_targetPackage);
+        javaModelGeneratorConfiguration.setDtoTargetPackage("com.eshop.enmu");
         javaModelGeneratorConfiguration.setTargetProject(targetProject);
 
         NodeList nodeList = node.getChildNodes();

@@ -31,7 +31,6 @@ import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.CountByExampleMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampleMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyLogicMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertSelectiveMethodGenerator;
@@ -90,7 +89,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         addCountByExampleMethod(interfaze);
         addDeleteByExampleMethod(interfaze);
         addDeleteByPrimaryKeyMethod(interfaze);
-        addDeleteByPrimaryKeyLogicMethod(interfaze);
+//        addDeleteByPrimaryKeyLogicMethod(interfaze);
         addInsertMethod(interfaze);
         addInsertSelectiveMethod(interfaze);
         addSelectByExampleWithBLOBsMethod(interfaze);
@@ -140,8 +139,8 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
     
     protected void addDeleteByPrimaryKeyLogicMethod(Interface interfaze) {
         if (true) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByPrimaryKeyLogicMethodGenerator(false);
-            initializeAndExecuteGenerator(methodGenerator, interfaze);
+//            AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByPrimaryKeyLogicMethodGenerator(false);
+//            initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 

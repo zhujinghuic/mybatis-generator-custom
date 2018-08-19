@@ -58,6 +58,7 @@ public abstract class IntrospectedTable {
         ATTR_DAO_IMPLEMENTATION_TYPE,
         ATTR_DAO_INTERFACE_TYPE,
         ATTR_PRIMARY_KEY_TYPE,
+        ATTR_BASE_RECORD_TYPE_DTO,
         ATTR_BASE_RECORD_TYPE,
         ATTR_RECORD_WITH_BLOBS_TYPE,
         ATTR_EXAMPLE_TYPE,
@@ -75,7 +76,6 @@ public abstract class IntrospectedTable {
         ATTR_COUNT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID,
-        ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID,
         ATTR_INSERT_STATEMENT_ID,
         ATTR_INSERT_SELECTIVE_STATEMENT_ID,
         ATTR_SELECT_ALL_STATEMENT_ID,
@@ -364,6 +364,12 @@ public abstract class IntrospectedTable {
     public String getBaseRecordType() {
         return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE);
     }
+    
+    public String getReturnMainRecordType() {
+        return internalAttributes.get(InternalAttribute.ATTR_BASE_RECORD_TYPE_DTO);
+    }
+    
+    
 
     /**
      * Gets the example type.
@@ -506,7 +512,10 @@ public abstract class IntrospectedTable {
 
     public void initialize() {
         calculateJavaClientAttributes();
-        calculateModelAttributes();
+        calculateModelAttributes("model");
+        
+//        calculateJavaClientAttributes();
+        calculateModelAttributes("dto");
         calculateXmlAttributes();
 
         if (tableConfiguration.getModelType() == ModelType.HIERARCHICAL) {
@@ -535,7 +544,7 @@ public abstract class IntrospectedTable {
         setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
         setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
         setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
-        setDeleteByPrimaryKeyLogicStatementId("deleteByPrimaryKeyLogic"); //$NON-NLS-1$
+//        setDeleteByPrimaryKeyLogicStatementId("deleteByPrimaryKeyLogic"); //$NON-NLS-1$
         setInsertStatementId("insert"); //$NON-NLS-1$
         setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
         setSelectAllStatementId("selectAll"); //$NON-NLS-1$
@@ -656,10 +665,6 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID, s);
     }
     
-    public void setDeleteByPrimaryKeyLogicStatementId(String s) {
-        internalAttributes.put(
-                InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID, s);
-    }
 
     public void setDeleteByExampleStatementId(String s) {
         internalAttributes.put(
@@ -766,10 +771,6 @@ public abstract class IntrospectedTable {
                 .get(InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID);
     }
     
-    public String getDeleteByPrimaryKeyLogicStatementId() {
-        return internalAttributes
-                .get(InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID);
-    }
 
     public String getDeleteByExampleStatementId() {
         return internalAttributes
@@ -869,48 +870,63 @@ public abstract class IntrospectedTable {
         setMyBatis3SqlProviderType(sb.toString());
     }
 
-    protected String calculateJavaModelPackage() {
+    protected String calculateJavaModelPackage(String modelType) {
         JavaModelGeneratorConfiguration config = context
                 .getJavaModelGeneratorConfiguration();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(config.getTargetPackage());
+        
+        if(modelType.equals("model")) {
+        	sb.append(config.getTargetPackage());
+        }else {
+        	sb.append(config.getDtoTargetPackage());
+        }
+//        sb.append(config.getDtoTargetPackage());
         sb.append(fullyQualifiedTable.getSubPackageForModel(isSubPackagesEnabled(config)));
 
         return sb.toString();
     }
+    
+    protected void calculateModelAttributes(String modelType) {
+        String pakkage = calculateJavaModelPackage(modelType);
 
-    protected void calculateModelAttributes() {
-        String pakkage = calculateJavaModelPackage();
-
+        String fix = "";
+        if(modelType.equals("dto")) {
+        	fix = "DTO";
+        }
         StringBuilder sb = new StringBuilder();
         sb.append(pakkage);
         sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append(fullyQualifiedTable.getDomainObjectName()+fix);
         sb.append("Key"); //$NON-NLS-1$
         setPrimaryKeyType(sb.toString());
 
         sb.setLength(0);
         sb.append(pakkage);
         sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
-        setBaseRecordType(sb.toString());
+        sb.append(fullyQualifiedTable.getDomainObjectName()+fix);
+        
+        if(modelType.equals("model")) {
+        	setBaseRecordType(sb.toString());
+        }else {
+        	setReturnMainRecordType(sb.toString());
+        }
 
         sb.setLength(0);
         sb.append(pakkage);
         sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append(fullyQualifiedTable.getDomainObjectName()+fix);
         sb.append("WithBLOBs"); //$NON-NLS-1$
         setRecordWithBLOBsType(sb.toString());
 
         sb.setLength(0);
         sb.append(pakkage);
         sb.append('.');
-        sb.append(fullyQualifiedTable.getDomainObjectName());
+        sb.append(fullyQualifiedTable.getDomainObjectName()+fix);
         sb.append("Example"); //$NON-NLS-1$
         setExampleType(sb.toString());
     }
-
+    
     protected String calculateSqlMapPackage() {
         StringBuilder sb = new StringBuilder();
         SqlMapGeneratorConfiguration config = context
@@ -1074,6 +1090,11 @@ public abstract class IntrospectedTable {
     public void setBaseRecordType(String baseRecordType) {
         internalAttributes.put(InternalAttribute.ATTR_BASE_RECORD_TYPE,
                 baseRecordType);
+    }
+    
+    public void setReturnMainRecordType(String baseReturnRecordType) {
+        internalAttributes.put(InternalAttribute.ATTR_BASE_RECORD_TYPE_DTO,
+        		baseReturnRecordType);
     }
 
     public void setRecordWithBLOBsType(String recordWithBLOBsType) {

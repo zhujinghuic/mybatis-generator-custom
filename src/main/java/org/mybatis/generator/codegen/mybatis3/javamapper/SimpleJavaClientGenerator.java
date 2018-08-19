@@ -29,7 +29,6 @@ import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
-import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyLogicMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.InsertMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.SelectAllMethodGenerator;
@@ -79,7 +78,7 @@ public class SimpleJavaClientGenerator extends AbstractJavaClientGenerator {
         }
 
         addDeleteByPrimaryKeyMethod(interfaze);
-        addDeleteByPrimaryKeyLogicMethod(interfaze);
+//        addDeleteByPrimaryKeyLogicMethod(interfaze);
         addInsertMethod(interfaze);
         addSelectByPrimaryKeyMethod(interfaze);
         addSelectAllMethod(interfaze);
@@ -108,8 +107,8 @@ public class SimpleJavaClientGenerator extends AbstractJavaClientGenerator {
     
     protected void addDeleteByPrimaryKeyLogicMethod(Interface interfaze) {
         if (true) {
-            AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByPrimaryKeyLogicMethodGenerator(true);
-            initializeAndExecuteGenerator(methodGenerator, interfaze);
+//            AbstractJavaMapperMethodGenerator methodGenerator = new DeleteByPrimaryKeyLogicMethodGenerator(true);
+//            initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
 

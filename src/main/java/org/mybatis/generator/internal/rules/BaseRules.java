@@ -101,6 +101,30 @@ public abstract class BaseRules implements Rules {
 
         return new FullyQualifiedJavaType(answer);
     }
+    
+    /**
+     * Calculates the class that contains all fields. This class is used as the
+     * insert statement parameter, as well as the returned value from the select
+     * by primary key method. The actual class depends on how the domain model
+     * is generated.
+     * 朱敬辉
+     * @return the type of the class that holds all fields
+     */
+    @Override
+    public FullyQualifiedJavaType calculateAllFieldsClassDTO() {
+
+        String answer;
+
+        if (generateRecordWithBLOBsClass()) {
+            answer = introspectedTable.getRecordWithBLOBsType();
+        } else if (generateBaseRecordClass()) {
+            answer = introspectedTable.getReturnMainRecordType();
+        } else {
+            answer = introspectedTable.getPrimaryKeyType();
+        }
+
+        return new FullyQualifiedJavaType(answer);
+    }
 
     /**
      * Implements the rule for generating the update by primary key without

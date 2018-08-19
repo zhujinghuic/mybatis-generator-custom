@@ -54,7 +54,7 @@ public class SimpleXMLMapperGenerator extends AbstractXmlGenerator {
 
         addResultMapElement(answer);
         addDeleteByPrimaryKeyElement(answer);
-        addDeleteByPrimaryKeyLogicElement(answer);
+//        addDeleteByPrimaryKeyLogicElement(answer);
         addInsertElement(answer);
         addUpdateByPrimaryKeyElement(answer);
         addSelectByPrimaryKeyElement(answer);
@@ -90,13 +90,6 @@ public class SimpleXMLMapperGenerator extends AbstractXmlGenerator {
         }
     }
     
-    protected void addDeleteByPrimaryKeyLogicElement(XmlElement parentElement) {
-        if (true) {
-            AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyElementGenerator(true);
-            initializeAndExecuteGenerator(elementGenerator, parentElement);
-        }
-    }
-
     protected void addInsertElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsert()) {
             AbstractXmlElementGenerator elementGenerator = new InsertElementGenerator(true);
@@ -119,7 +112,7 @@ public class SimpleXMLMapperGenerator extends AbstractXmlGenerator {
         elementGenerator.setIntrospectedTable(introspectedTable);
         elementGenerator.setProgressCallback(progressCallback);
         elementGenerator.setWarnings(warnings);
-        elementGenerator.addElements(parentElement);
+   //     elementGenerator.addElements(parentElement);
     }
 
     @Override
