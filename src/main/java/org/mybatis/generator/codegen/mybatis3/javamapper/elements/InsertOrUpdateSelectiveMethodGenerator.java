@@ -29,10 +29,10 @@ import org.mybatis.generator.api.dom.java.Parameter;
  * @author Jeff Butler
  * 
  */
-public class InsertSelectiveMethodGenerator extends
+public class InsertOrUpdateSelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public InsertSelectiveMethodGenerator() {
+    public InsertOrUpdateSelectiveMethodGenerator() {
         super();
     }
 
@@ -42,7 +42,7 @@ public class InsertSelectiveMethodGenerator extends
 
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
         method.setVisibility(JavaVisibility.PUBLIC);
-        method.setName(introspectedTable.getInsertSelectiveStatementId());
+        method.setName(introspectedTable.getInsertOrUpdateSelectiveStatementId());
 
         FullyQualifiedJavaType parameterType = introspectedTable.getRules()
                 .calculateAllFieldsClass();

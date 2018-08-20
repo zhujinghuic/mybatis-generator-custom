@@ -31,12 +31,12 @@ import org.mybatis.generator.api.dom.java.Parameter;
  * @author Jeff Butler
  * 
  */
-public class SelectAllByParamsMethodGenerator extends
+public class SelectOneByParamsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
     private boolean isSimple;
 
-    public SelectAllByParamsMethodGenerator(boolean isSimple) {
+    public SelectOneByParamsMethodGenerator(boolean isSimple) {
         super();
         this.isSimple = isSimple;
     }
@@ -49,13 +49,12 @@ public class SelectAllByParamsMethodGenerator extends
 
         FullyQualifiedJavaType returnType = introspectedTable.getRules()
                 .calculateAllFieldsClassDTO();
-        FullyQualifiedJavaType listType = new FullyQualifiedJavaType("java.util.List",introspectedTable.getReturnMainRecordType());
-        method.setReturnType(listType);
+//        FullyQualifiedJavaType returnType = new FullyQualifiedJavaType(introspectedTable.getReturnMainRecordType());
+        method.setReturnType(returnType);
 //        method.addBodyLine("List<" + returnType + ">");
         importedTypes.add(returnType);
-        importedTypes.add(new FullyQualifiedJavaType("java.util.List"));
         
-        method.setName(introspectedTable.getSelectAllByParamsStatementId());
+        method.setName(introspectedTable.getSelectOneStatementId());
 
         if (!isSimple && introspectedTable.getRules().generatePrimaryKeyClass()) {
             FullyQualifiedJavaType type = new FullyQualifiedJavaType(
@@ -74,7 +73,7 @@ public class SelectAllByParamsMethodGenerator extends
                 importedTypes.add(new FullyQualifiedJavaType(
                         "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
             }
-             FullyQualifiedJavaType type = introspectedTable.getRules()
+            FullyQualifiedJavaType type = introspectedTable.getRules()
                     .calculateAllFieldsClass();
             importedTypes.add(type);
             Parameter parameter = new Parameter(type, "record");
@@ -83,7 +82,7 @@ public class SelectAllByParamsMethodGenerator extends
 
         addMapperAnnotations(interfaze, method);
 
-        String contextq = "根据动态条件查询全部记录";
+        String contextq = "根据动态条件查询一条记录";
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable,contextq);
 

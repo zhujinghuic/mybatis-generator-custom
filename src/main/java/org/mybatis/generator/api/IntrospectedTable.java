@@ -76,9 +76,13 @@ public abstract class IntrospectedTable {
         ATTR_COUNT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_EXAMPLE_STATEMENT_ID,
         ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID,
+        ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID,
         ATTR_INSERT_STATEMENT_ID,
         ATTR_INSERT_SELECTIVE_STATEMENT_ID,
+        ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID,
+        BATCH_ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID,
         ATTR_SELECT_ALL_STATEMENT_ID,
+        ATTR_SELECT_ONE_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID,
         ATTR_SELECT_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
         ATTR_SELECT_BY_PRIMARY_KEY_STATEMENT_ID,
@@ -545,14 +549,17 @@ public abstract class IntrospectedTable {
         setCountByExampleStatementId("countByExample"); //$NON-NLS-1$
         setDeleteByExampleStatementId("deleteByExample"); //$NON-NLS-1$
         setDeleteByPrimaryKeyStatementId("deleteByPrimaryKey"); //$NON-NLS-1$
-//        setDeleteByPrimaryKeyLogicStatementId("deleteByPrimaryKeyLogic"); //$NON-NLS-1$
+        setDeleteByPrimaryKeyLogicStatementId("deleteByPrimaryKeyLogic"); //$NON-NLS-1$
         setInsertStatementId("insert"); //$NON-NLS-1$
         setInsertSelectiveStatementId("insertSelective"); //$NON-NLS-1$
+        setInsertOrUpdateSelectiveStatementId("insertOrUpdateSelective");
+        setBatchInsertOrUpdateSelectiveStatementId("batchInsertOrUpdateSelective");
         setSelectAllStatementId("selectAll"); //$NON-NLS-1$
         setSelectByExampleStatementId("selectByExample"); //$NON-NLS-1$
         setSelectByExampleWithBLOBsStatementId("selectByExampleWithBLOBs"); //$NON-NLS-1$
         setSelectByPrimaryKeyStatementId("selectByPrimaryKey"); //$NON-NLS-1$
         setSelectAllByParamsStatementId("selectAllByParams"); //$NON-NLS-1$
+        setSelectOneStatementId("selectOneByParams");
         setUpdateByExampleStatementId("updateByExample"); //$NON-NLS-1$
         setUpdateByExampleSelectiveStatementId("updateByExampleSelective"); //$NON-NLS-1$
         setUpdateByExampleWithBLOBsStatementId("updateByExampleWithBLOBs"); //$NON-NLS-1$
@@ -647,6 +654,11 @@ public abstract class IntrospectedTable {
         internalAttributes.put(
                 InternalAttribute.ATTR_SELECT_ALL_STATEMENT_ID, s);
     }
+    
+    public void setSelectOneStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_SELECT_ONE_STATEMENT_ID, s);
+    }
 
     public void setSelectByExampleStatementId(String s) {
         internalAttributes.put(
@@ -656,6 +668,16 @@ public abstract class IntrospectedTable {
     public void setInsertSelectiveStatementId(String s) {
         internalAttributes.put(
                 InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID, s);
+    }
+    
+    public void setInsertOrUpdateSelectiveStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID, s);
+    }
+    
+    public void setBatchInsertOrUpdateSelectiveStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.BATCH_ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID, s);
     }
 
     public void setInsertStatementId(String s) {
@@ -667,7 +689,11 @@ public abstract class IntrospectedTable {
                 InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID, s);
     }
     
-
+    public void setDeleteByPrimaryKeyLogicStatementId(String s) {
+        internalAttributes.put(
+                InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID, s);
+    }
+    
     public void setDeleteByExampleStatementId(String s) {
         internalAttributes.put(
                 InternalAttribute.ATTR_DELETE_BY_EXAMPLE_STATEMENT_ID, s);
@@ -752,7 +778,12 @@ public abstract class IntrospectedTable {
         return internalAttributes
                 .get(InternalAttribute.ATTR_SELECT_ALL_STATEMENT_ID);
     }
-
+    
+    public String getSelectOneStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_SELECT_ONE_STATEMENT_ID);
+    }
+    
     public String getSelectByExampleStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_SELECT_BY_EXAMPLE_STATEMENT_ID);
@@ -761,6 +792,16 @@ public abstract class IntrospectedTable {
     public String getInsertSelectiveStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_INSERT_SELECTIVE_STATEMENT_ID);
+    }
+    
+    public String getInsertOrUpdateSelectiveStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID);
+    }
+    
+    public String getBatchInsertOrUpdateSelectiveStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.BATCH_ATTR_INSERT_OR_UPDATE_SELECTIVE_STATEMENT_ID);
     }
 
     public String getInsertStatementId() {
@@ -771,6 +812,11 @@ public abstract class IntrospectedTable {
     public String getDeleteByPrimaryKeyStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_STATEMENT_ID);
+    }
+    
+    public String getDeleteByPrimaryKeyLogicStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_DELETE_BY_PRIMARY_KEY_LOGIC_STATEMENT_ID);
     }
     
 
