@@ -600,7 +600,6 @@ public class MyBatisGeneratorConfigurationParser {
 //        String dto_targetPackage = attributes.getProperty("dto_targetPackage"); //$NON-NLS-1$
         String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
 
-        targetPackage += ".sys";
         javaModelGeneratorConfiguration.setTargetPackage(targetPackage);
         int index = targetPackage.lastIndexOf(".");
         String fix = targetPackage.substring(index);
