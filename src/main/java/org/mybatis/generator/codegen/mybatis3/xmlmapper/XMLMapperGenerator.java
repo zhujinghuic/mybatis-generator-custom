@@ -25,12 +25,15 @@ import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BaseColumnListElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchInsertOrUpdateSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BlobColumnListElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.CountByExampleElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByExampleElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyLogicElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ExampleWhereClauseElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertOrUpdateSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.InsertSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ResultMapWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ResultMapWithoutBLOBsElementGenerator;
@@ -38,6 +41,7 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectAllByPara
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByExampleWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByExampleWithoutBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectByPrimaryKeyElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectOneByParamsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleWithoutBLOBsElementGenerator;
@@ -76,17 +80,20 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addSelectByExampleWithBLOBsElement(answer);
         addSelectByExampleWithoutBLOBsElement(answer);
         addSelectByPrimaryKeyElement(answer);
-        addSelectAllByParams(answer);
+        addSelectAllByParams(answer);// 查全部
+        addSelectOneByParams(answer);// 查单个
+        addInsertOrUpdateSelectiveElement(answer);// 插入或更新
+ //       addBatchInsertOrUpdateSelectiveElement(answer);// 批量插入或更新
+        addUpdateByExampleSelectiveElement(answer);
+        addUpdateByPrimaryKeySelectiveElement(answer);
+        addDeleteByPrimaryKeyLogicElement(answer);//逻辑删除
         addDeleteByPrimaryKeyElement(answer);
-//        addDeleteByPrimaryKeyLogicElement(answer);
         addDeleteByExampleElement(answer);
         addInsertElement(answer);
         addInsertSelectiveElement(answer);
         addCountByExampleElement(answer);
-        addUpdateByExampleSelectiveElement(answer);
         addUpdateByExampleWithBLOBsElement(answer);
         addUpdateByExampleWithoutBLOBsElement(answer);
-        addUpdateByPrimaryKeySelectiveElement(answer);
         addUpdateByPrimaryKeyWithBLOBsElement(answer);
         addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
 
@@ -176,10 +183,10 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     }
     
     protected void addDeleteByPrimaryKeyLogicElement(XmlElement parentElement) {
-//        if (introspectedTable.getRules().generateDeleteByPrimaryKey()) {
-//            AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyLogicElementGenerator(false);
-//            initializeAndExecuteGenerator(elementGenerator, parentElement);
-//        }
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyLogicElementGenerator(false);
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
     }
 
     protected void addInsertElement(XmlElement parentElement) {
@@ -192,6 +199,20 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     protected void addInsertSelectiveElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsertSelective()) {
             AbstractXmlElementGenerator elementGenerator = new InsertSelectiveElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addInsertOrUpdateSelectiveElement(XmlElement parentElement) {
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new InsertOrUpdateSelectiveElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addBatchInsertOrUpdateSelectiveElement(XmlElement parentElement) {
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new BatchInsertOrUpdateSelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
@@ -237,6 +258,14 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             XmlElement parentElement) {
         if (true) {
             AbstractXmlElementGenerator elementGenerator = new SelectAllByParamsElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addSelectOneByParams(
+            XmlElement parentElement) {
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new SelectOneByParamsElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
