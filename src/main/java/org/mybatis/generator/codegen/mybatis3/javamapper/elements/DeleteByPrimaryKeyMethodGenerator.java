@@ -84,8 +84,9 @@ public class DeleteByPrimaryKeyMethodGenerator extends
             }
         }
 
+        String contextq = "根据ID删除";
         context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+                introspectedTable,contextq);
 
         addMapperAnnotations(method);
         

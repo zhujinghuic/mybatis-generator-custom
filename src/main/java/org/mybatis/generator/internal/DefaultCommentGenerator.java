@@ -362,17 +362,17 @@ public class DefaultCommentGenerator implements CommentGenerator {
 
         StringBuilder sb = new StringBuilder();
 
-        method.addJavaDocLine("/**"); //$NON-NLS-1$
-        method
-                .addJavaDocLine(" * " + contexq ); //$NON-NLS-1$
+        method.addJavaDocLine("/** "+ contexq + " **/"); //$NON-NLS-1$
+//        method
+//                .addJavaDocLine(" * " + contexq ); //$NON-NLS-1$
 
 //        sb.append(" * This method corresponds to the database table "); //$NON-NLS-1$
 //        sb.append(introspectedTable.getFullyQualifiedTable());
 //        method.addJavaDocLine(sb.toString());
 
-        addJavadocTag(method, false);
+//        addJavadocTag(method, false);
 
-        method.addJavaDocLine(" */"); //$NON-NLS-1$
+//        method.addJavaDocLine(" */"); //$NON-NLS-1$
     }
 
     @Override
