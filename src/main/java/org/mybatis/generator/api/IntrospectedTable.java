@@ -93,6 +93,7 @@ public abstract class IntrospectedTable {
         ATTR_UPDATE_BY_EXAMPLE_WITH_BLOBS_STATEMENT_ID,
         ATTR_UPDATE_BY_PRIMARY_KEY_STATEMENT_ID,
         ATTR_UPDATE_BY_PRIMARY_KEY_SELECTIVE_STATEMENT_ID,
+        ATTR_UPDATE_BY_PARAMS_KEY_SELECTIVE_STATEMENT_ID,
         ATTR_UPDATE_BY_PRIMARY_KEY_WITH_BLOBS_STATEMENT_ID,
         BATCH_ATTR_UPDATE_BY_PRIMARY_KEY_WITH_BLOBS_STATEMENT_ID,
         ATTR_BASE_RESULT_MAP_ID,
@@ -568,6 +569,7 @@ public abstract class IntrospectedTable {
         setUpdateByExampleWithBLOBsStatementId("updateByExampleWithBLOBs"); //$NON-NLS-1$
         setUpdateByPrimaryKeyStatementId("updateByPrimaryKey"); //$NON-NLS-1$
         setUpdateByPrimaryKeySelectiveStatementId("updateByPrimaryKeySelective"); //$NON-NLS-1$
+        setUpdateByParamsSelectiveStatementId("updateByParamsSelective");
         setUpdateByPrimaryKeyWithBLOBsStatementId("updateByPrimaryKeyWithBLOBs"); //$NON-NLS-1$
         setBatchUpdateByPrimaryKeyWithBLOBsStatementId("batchUpdateByPrimaryKey"); //$NON-NLS-1$
         setBaseResultMapId("BaseResultMap"); //$NON-NLS-1$
@@ -622,6 +624,13 @@ public abstract class IntrospectedTable {
         internalAttributes
                 .put(
                         InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_SELECTIVE_STATEMENT_ID,
+                        s);
+    }
+    
+    public void setUpdateByParamsSelectiveStatementId(String s) {
+        internalAttributes
+                .put(
+                        InternalAttribute.ATTR_UPDATE_BY_PARAMS_KEY_SELECTIVE_STATEMENT_ID,
                         s);
     }
 
@@ -762,6 +771,11 @@ public abstract class IntrospectedTable {
     public String getUpdateByPrimaryKeySelectiveStatementId() {
         return internalAttributes
                 .get(InternalAttribute.ATTR_UPDATE_BY_PRIMARY_KEY_SELECTIVE_STATEMENT_ID);
+    }
+    
+    public String getUpdateByParamsSelectiveStatementId() {
+        return internalAttributes
+                .get(InternalAttribute.ATTR_UPDATE_BY_PARAMS_KEY_SELECTIVE_STATEMENT_ID);
     }
 
     public String getUpdateByPrimaryKeyStatementId() {

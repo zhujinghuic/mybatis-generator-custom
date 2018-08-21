@@ -48,6 +48,7 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.SelectOneByPara
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByExampleWithoutBLOBsElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByParamsSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeySelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeyWithBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.UpdateByPrimaryKeyWithoutBLOBsElementGenerator;
@@ -93,7 +94,6 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addUpdateByExampleSelectiveElement(answer);
         addUpdateByPrimaryKeySelectiveElement(answer);
 //        addDeleteByParamsElement(answer);//根据唯一组合删除
-        addDeleteByPrimaryKeyElement(answer);
         addDeleteByExampleElement(answer);
         addCountByExampleElement(answer);
         addUpdateByExampleWithBLOBsElement(answer);
@@ -101,6 +101,8 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addUpdateByPrimaryKeyWithBLOBsElement(answer);
         addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
         batchAddUpdateByPrimaryKeyWithoutBLOBsElement(answer);//批量更新
+        addUpdateByParamSelectiveElement(answer);//根据动态条件更新动态字段
+        addDeleteByPrimaryKeyElement(answer);
         addDeleteByPrimaryKeyLogicElement(answer);//逻辑删除
 
         return answer;
@@ -315,7 +317,15 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
-
+    
+    protected void addUpdateByParamSelectiveElement(
+            XmlElement parentElement) {
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new UpdateByParamsSelectiveElementGenerator(false);
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
     protected void initializeAndExecuteGenerator(
             AbstractXmlElementGenerator elementGenerator,
             XmlElement parentElement) {
