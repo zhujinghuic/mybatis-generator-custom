@@ -26,9 +26,12 @@ import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BaseColumnListElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchInsertOrUpdateSelectiveElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchInsertSelectiveElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BlobColumnListElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.CountByExampleElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByExampleElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByParamsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.DeleteByPrimaryKeyLogicElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.ExampleWhereClauseElementGenerator;
@@ -82,20 +85,23 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addSelectByPrimaryKeyElement(answer);
         addSelectAllByParams(answer);// 查全部
         addSelectOneByParams(answer);// 查单个
-        addInsertOrUpdateSelectiveElement(answer);// 插入或更新
+//        addInsertOrUpdateSelectiveElement(answer);// 插入或更新
  //       addBatchInsertOrUpdateSelectiveElement(answer);// 批量插入或更新
-        addUpdateByExampleSelectiveElement(answer);
-        addUpdateByPrimaryKeySelectiveElement(answer);
-        addDeleteByPrimaryKeyLogicElement(answer);//逻辑删除
-        addDeleteByPrimaryKeyElement(answer);
-        addDeleteByExampleElement(answer);
         addInsertElement(answer);
         addInsertSelectiveElement(answer);
+        addBatchInsertSelectiveElement(answer);//批量插入
+        addUpdateByExampleSelectiveElement(answer);
+        addUpdateByPrimaryKeySelectiveElement(answer);
+//        addDeleteByParamsElement(answer);//根据唯一组合删除
+        addDeleteByPrimaryKeyElement(answer);
+        addDeleteByExampleElement(answer);
         addCountByExampleElement(answer);
         addUpdateByExampleWithBLOBsElement(answer);
         addUpdateByExampleWithoutBLOBsElement(answer);
         addUpdateByPrimaryKeyWithBLOBsElement(answer);
         addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
+        batchAddUpdateByPrimaryKeyWithoutBLOBsElement(answer);//批量更新
+        addDeleteByPrimaryKeyLogicElement(answer);//逻辑删除
 
         return answer;
     }
@@ -182,13 +188,20 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         }
     }
     
+    protected void addDeleteByParamsElement(XmlElement parentElement) {
+        if (true) {
+            AbstractXmlElementGenerator elementGenerator = new DeleteByParamsElementGenerator(false);
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
     protected void addDeleteByPrimaryKeyLogicElement(XmlElement parentElement) {
         if (true) {
             AbstractXmlElementGenerator elementGenerator = new DeleteByPrimaryKeyLogicElementGenerator(false);
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
-
+    
     protected void addInsertElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsert()) {
             AbstractXmlElementGenerator elementGenerator = new InsertElementGenerator(false);
@@ -199,6 +212,13 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
     protected void addInsertSelectiveElement(XmlElement parentElement) {
         if (introspectedTable.getRules().generateInsertSelective()) {
             AbstractXmlElementGenerator elementGenerator = new InsertSelectiveElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addBatchInsertSelectiveElement(XmlElement parentElement) {
+        if (introspectedTable.getRules().generateInsertSelective()) {
+            AbstractXmlElementGenerator elementGenerator = new BatchInsertSelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }
@@ -283,6 +303,15 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         if (introspectedTable.getRules()
                 .generateUpdateByPrimaryKeyWithoutBLOBs()) {
             AbstractXmlElementGenerator elementGenerator = new UpdateByPrimaryKeyWithoutBLOBsElementGenerator(false);
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void batchAddUpdateByPrimaryKeyWithoutBLOBsElement(
+            XmlElement parentElement) {
+        if (introspectedTable.getRules()
+                .generateUpdateByPrimaryKeyWithoutBLOBs()) {
+            AbstractXmlElementGenerator elementGenerator = new BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator(false);
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }

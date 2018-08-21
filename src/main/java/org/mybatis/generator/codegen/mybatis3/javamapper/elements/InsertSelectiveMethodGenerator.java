@@ -51,8 +51,9 @@ public class InsertSelectiveMethodGenerator extends
         importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
+        String contextq = "动态插入";
         context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable);
+                introspectedTable,contextq);
 
         addMapperAnnotations(method);
         

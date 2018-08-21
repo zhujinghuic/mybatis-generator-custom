@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,35 +29,36 @@ import org.mybatis.generator.api.dom.java.Parameter;
  * @author Jeff Butler
  * 
  */
-public class UpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
+public class BatchInsertSelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public UpdateByPrimaryKeyWithoutBLOBsMethodGenerator() {
+    public BatchInsertSelectiveMethodGenerator() {
         super();
     }
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
-        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-                introspectedTable.getBaseRecordType());
-        importedTypes.add(parameterType);
-
         Method method = new Method();
-        method.setVisibility(JavaVisibility.PUBLIC);
+
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.setName(introspectedTable.getUpdateByPrimaryKeyStatementId());
+        method.setVisibility(JavaVisibility.PUBLIC);
+        method.setName(introspectedTable.getBatchInsertSelectiveStatementId());
+
+        FullyQualifiedJavaType parameterType = introspectedTable.getRules()
+                .calculateAllFieldsClass();
+
+        Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
+        importedTypes.add(parameterType);
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
-        String contextq = "根据ID更新记录";
+        String contextq = "批量插入记录";
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable,contextq);
 
         addMapperAnnotations(method);
         
-        if (context.getPlugins()
-                .clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method,
-                        interfaze, introspectedTable)) {
+        if (context.getPlugins().clientInsertSelectiveMethodGenerated(
+                method, interfaze, introspectedTable)) {
             addExtraImports(interfaze);
             interfaze.addImportedTypes(importedTypes);
             interfaze.addMethod(method);

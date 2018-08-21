@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2016 the original author or authors.
+ *    Copyright 2006-2017 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,34 +29,44 @@ import org.mybatis.generator.api.dom.java.Parameter;
  * @author Jeff Butler
  * 
  */
-public class UpdateByPrimaryKeyWithoutBLOBsMethodGenerator extends
+public class BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public UpdateByPrimaryKeyWithoutBLOBsMethodGenerator() {
+    public BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator() {
         super();
     }
 
     @Override
     public void addInterfaceElements(Interface interfaze) {
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType(
-                introspectedTable.getBaseRecordType());
+        FullyQualifiedJavaType parameterType;
+
+        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
+            parameterType = new FullyQualifiedJavaType(introspectedTable
+                    .getRecordWithBLOBsType());
+        } else {
+            parameterType = new FullyQualifiedJavaType(introspectedTable
+                    .getBaseRecordType());
+        }
+
         importedTypes.add(parameterType);
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-        method.setName(introspectedTable.getUpdateByPrimaryKeyStatementId());
+
+        method.setName(introspectedTable
+                .getBatchUpdateByPrimaryKeyWithBLOBsStatementId());
         method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
 
-        String contextq = "根据ID更新记录";
+        String contextq = "批量更新";
         context.getCommentGenerator().addGeneralMethodComment(method,
                 introspectedTable,contextq);
 
         addMapperAnnotations(method);
-        
+
         if (context.getPlugins()
-                .clientUpdateByPrimaryKeyWithoutBLOBsMethodGenerated(method,
+                .clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
                         interfaze, introspectedTable)) {
             addExtraImports(interfaze);
             interfaze.addImportedTypes(importedTypes);

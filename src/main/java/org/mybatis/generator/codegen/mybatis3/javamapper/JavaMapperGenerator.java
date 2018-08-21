@@ -30,6 +30,8 @@ import org.mybatis.generator.codegen.AbstractJavaClientGenerator;
 import org.mybatis.generator.codegen.AbstractXmlGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.AbstractJavaMapperMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.BatchInsertOrUpdateSelectiveMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.BatchInsertSelectiveMethodGenerator;
+import org.mybatis.generator.codegen.mybatis3.javamapper.elements.BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.CountByExampleMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByExampleMethodGenerator;
 import org.mybatis.generator.codegen.mybatis3.javamapper.elements.DeleteByPrimaryKeyLogicMethodGenerator;
@@ -97,12 +99,13 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         addDeleteByPrimaryKeyMethod(interfaze);
         addInsertMethod(interfaze);
         addInsertSelectiveMethod(interfaze);
+        addBatchInsertSelectiveMethod(interfaze);//批量插入
         addSelectByExampleWithBLOBsMethod(interfaze);
         addSelectByExampleWithoutBLOBsMethod(interfaze);
         addSelectByPrimaryKeyMethod(interfaze);
         addSelectAllByParamsMethod(interfaze);//查询全部
         addSelectOneByParamsMethod(interfaze);//查询一个
-        addInsertOrUpdateSelectiveMethod(interfaze);//插入或更新
+//        addInsertOrUpdateSelectiveMethod(interfaze);//插入或更新
 //        addBatchInsertOrUpdateSelectiveMethod(interfaze);//批量插入或更新
         addDeleteByPrimaryKeyLogicMethod(interfaze);//逻辑删除
         addUpdateByExampleSelectiveMethod(interfaze);
@@ -110,6 +113,7 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
         addUpdateByExampleWithoutBLOBsMethod(interfaze);
         addUpdateByPrimaryKeySelectiveMethod(interfaze);
         addUpdateByPrimaryKeyWithBLOBsMethod(interfaze);
+        addBatchUpdateByPrimaryKeyMethod(interfaze);//批量更新
         addUpdateByPrimaryKeyWithoutBLOBsMethod(interfaze);
 
         List<CompilationUnit> answer = new ArrayList<CompilationUnit>();
@@ -164,6 +168,13 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
     protected void addInsertSelectiveMethod(Interface interfaze) {
         if (introspectedTable.getRules().generateInsertSelective()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new InsertSelectiveMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+    
+    protected void addBatchInsertSelectiveMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateInsertSelective()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new BatchInsertSelectiveMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
@@ -248,6 +259,13 @@ public class JavaMapperGenerator extends AbstractJavaClientGenerator {
     protected void addUpdateByPrimaryKeyWithBLOBsMethod(Interface interfaze) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeyWithBLOBs()) {
             AbstractJavaMapperMethodGenerator methodGenerator = new UpdateByPrimaryKeyWithBLOBsMethodGenerator();
+            initializeAndExecuteGenerator(methodGenerator, interfaze);
+        }
+    }
+    
+    protected void addBatchUpdateByPrimaryKeyMethod(Interface interfaze) {
+        if (introspectedTable.getRules().generateUpdateByPrimaryKeyWithoutBLOBs()) {
+            AbstractJavaMapperMethodGenerator methodGenerator = new BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator();
             initializeAndExecuteGenerator(methodGenerator, interfaze);
         }
     }
