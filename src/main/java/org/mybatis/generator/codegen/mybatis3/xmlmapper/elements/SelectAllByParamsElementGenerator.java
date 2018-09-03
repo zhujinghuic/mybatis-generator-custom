@@ -59,7 +59,7 @@ public class SelectAllByParamsElementGenerator extends
             if (introspectedTable.getPrimaryKeyColumns().size() > 1) {
                 parameterType = "map"; //$NON-NLS-1$
             } else {
-                parameterType = introspectedTable.getReturnMainRecordType();
+                parameterType = introspectedTable.getBaseRecordType();
             }
         }
 
