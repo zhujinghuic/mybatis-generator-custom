@@ -129,37 +129,37 @@ public class BaseRecordGenerator extends AbstractJavaGenerator {
                 method = getJavaBeansSetter(introspectedColumn, context, introspectedTable);
                 method2 = getJavaBeansSetter(introspectedColumn, context, introspectedTable);
                 
-                boolean hadImported = false;
-                
-                String methodName_R = method.getName();
-                if(methodName_R.length()>=6) {
-                	String methodName = methodName_R;
-                	 methodName = methodName.substring(methodName.length()-6);
-                	 if(methodName.equals("Status")) {
-                     	method.addAnnotation("@JsonDeserialize(using = ConvertBooleanToInt.class)");
-                     	topLevelClass.addImportedType("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
-                     	topLevelClass.addImportedType("com.eshop.dataSerialize.ConvertBooleanToInt");
-                     	method2.addAnnotation("@JsonSerialize(using = ConvertIntToBoolean.class)");
-                     	topLevelClass2.addImportedType("com.fasterxml.jackson.databind.annotation.JsonSerialize");
-                     	topLevelClass2.addImportedType("com.eshop.dataSerialize.ConvertIntToBoolean");
-                     	hadImported = true;
-                     }
-                }
-              if(methodName_R.length()>=9) {
-                  String methodName2 = methodName_R;
-                	 methodName2 = methodName2.substring(methodName2.length()-9);
-                	 if(methodName2.equals("IsDefault")) {
-                     	method.addAnnotation("@JsonDeserialize(using = ConvertBooleanToInt.class)");
-                     	method2.addAnnotation("@JsonSerialize(using = ConvertIntToBoolean.class)");
-                     	
-                     	if(!hadImported) {
-                     		topLevelClass.addImportedType("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
-                         	topLevelClass.addImportedType("com.eshop.dataSerialize.ConvertBooleanToInt");
-                         	topLevelClass2.addImportedType("com.fasterxml.jackson.databind.annotation.JsonSerialize");
-                         	topLevelClass2.addImportedType("com.eshop.dataSerialize.ConvertIntToBoolean");
-                     	}
-                     }
-              }
+//                boolean hadImported = false;
+//                
+//                String methodName_R = method.getName();
+//                if(methodName_R.length()>=6) {
+//                	String methodName = methodName_R;
+//                	 methodName = methodName.substring(methodName.length()-6);
+//                	 if(methodName.equals("Status")) {
+//                     	method.addAnnotation("@JsonDeserialize(using = ConvertBooleanToInt.class)");
+//                     	topLevelClass.addImportedType("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+//                     	topLevelClass.addImportedType("com.eshop.dataSerialize.ConvertBooleanToInt");
+//                     	method2.addAnnotation("@JsonSerialize(using = ConvertIntToBoolean.class)");
+//                     	topLevelClass2.addImportedType("com.fasterxml.jackson.databind.annotation.JsonSerialize");
+//                     	topLevelClass2.addImportedType("com.eshop.dataSerialize.ConvertIntToBoolean");
+//                     	hadImported = true;
+//                     }
+//                }
+//              if(methodName_R.length()>=9) {
+//                  String methodName2 = methodName_R;
+//                	 methodName2 = methodName2.substring(methodName2.length()-9);
+//                	 if(methodName2.equals("IsDefault")) {
+//                     	method.addAnnotation("@JsonDeserialize(using = ConvertBooleanToInt.class)");
+//                     	method2.addAnnotation("@JsonSerialize(using = ConvertIntToBoolean.class)");
+//                     	
+//                     	if(!hadImported) {
+//                     		topLevelClass.addImportedType("com.fasterxml.jackson.databind.annotation.JsonDeserialize");
+//                         	topLevelClass.addImportedType("com.eshop.dataSerialize.ConvertBooleanToInt");
+//                         	topLevelClass2.addImportedType("com.fasterxml.jackson.databind.annotation.JsonSerialize");
+//                         	topLevelClass2.addImportedType("com.eshop.dataSerialize.ConvertIntToBoolean");
+//                     	}
+//                     }
+//              }
                 
                 if (plugins.modelSetterMethodGenerated(method, topLevelClass,
                         introspectedColumn, introspectedTable,

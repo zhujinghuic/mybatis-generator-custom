@@ -89,32 +89,28 @@ public class SelectAllByParamsElementGenerator extends
         sb.append(introspectedTable
                 .getAliasedFullyQualifiedTableNameAtRuntime());
         answer.addElement(new TextElement(sb.toString()));
+        sb.setLength(0);
+        sb.append("where is_deleted = 0 "); //$NON-NLS-1$
+        answer.addElement(new TextElement(sb.toString()));
 
-        boolean and = false;
         for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
                 .getNonPrimaryKeyColumns())) {
             sb.setLength(0);
-            if (and) {
-            	sb.append(introspectedColumn.getJavaProperty());
-                sb.append(" != null");
-                
-            	XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
-                isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
-                answer.addElement(isNotNullElement);
-                sb.setLength(0);
-                
-                sb.append("  and "); //$NON-NLS-1$
-                sb.append(MyBatis3FormattingUtilities
-                        .getAliasedEscapedColumnName(introspectedColumn));
-                sb.append(" = "); //$NON-NLS-1$
-                sb.append(MyBatis3FormattingUtilities
-                        .getParameterClause(introspectedColumn));
-                isNotNullElement.addElement(new TextElement(sb.toString()));
-            } else {
-                sb.append("where is_deleted = 0 "); //$NON-NLS-1$
-                answer.addElement(new TextElement(sb.toString()));
-                and = true;
-            }
+            sb.append(introspectedColumn.getJavaProperty());
+            sb.append(" != null");
+            
+        	XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
+            isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
+            answer.addElement(isNotNullElement);
+            sb.setLength(0);
+            
+            sb.append("  and "); //$NON-NLS-1$
+            sb.append(MyBatis3FormattingUtilities
+                    .getAliasedEscapedColumnName(introspectedColumn));
+            sb.append(" = "); //$NON-NLS-1$
+            sb.append(MyBatis3FormattingUtilities
+                    .getParameterClause(introspectedColumn));
+            isNotNullElement.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()

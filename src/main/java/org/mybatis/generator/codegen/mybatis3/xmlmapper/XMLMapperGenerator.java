@@ -27,6 +27,7 @@ import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.AbstractXmlElem
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BaseColumnListElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchInsertOrUpdateSelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchInsertSelectiveElementGenerator;
+import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchUpdateByPrimaryKeySelectiveElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.BlobColumnListElementGenerator;
 import org.mybatis.generator.codegen.mybatis3.xmlmapper.elements.CountByExampleElementGenerator;
@@ -93,6 +94,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addBatchInsertSelectiveElement(answer);//批量插入
         addUpdateByExampleSelectiveElement(answer);
         addUpdateByPrimaryKeySelectiveElement(answer);
+        addBatchUpdateByPrimaryKeySelectiveElement(answer);
 //        addDeleteByParamsElement(answer);//根据唯一组合删除
         addDeleteByExampleElement(answer);
         addCountByExampleElement(answer);
@@ -100,7 +102,7 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
         addUpdateByExampleWithoutBLOBsElement(answer);
         addUpdateByPrimaryKeyWithBLOBsElement(answer);
         addUpdateByPrimaryKeyWithoutBLOBsElement(answer);
-        batchAddUpdateByPrimaryKeyWithoutBLOBsElement(answer);//批量更新
+//        batchAddUpdateByPrimaryKeyWithoutBLOBsElement(answer);//批量更新
         addUpdateByParamSelectiveElement(answer);//根据动态条件更新动态字段
         addDeleteByPrimaryKeyElement(answer);
         addDeleteByPrimaryKeyLogicElement(answer);//逻辑删除
@@ -272,6 +274,14 @@ public class XMLMapperGenerator extends AbstractXmlGenerator {
             XmlElement parentElement) {
         if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
             AbstractXmlElementGenerator elementGenerator = new UpdateByPrimaryKeySelectiveElementGenerator();
+            initializeAndExecuteGenerator(elementGenerator, parentElement);
+        }
+    }
+    
+    protected void addBatchUpdateByPrimaryKeySelectiveElement(
+            XmlElement parentElement) {
+        if (introspectedTable.getRules().generateUpdateByPrimaryKeySelective()) {
+            AbstractXmlElementGenerator elementGenerator = new BatchUpdateByPrimaryKeySelectiveElementGenerator();
             initializeAndExecuteGenerator(elementGenerator, parentElement);
         }
     }

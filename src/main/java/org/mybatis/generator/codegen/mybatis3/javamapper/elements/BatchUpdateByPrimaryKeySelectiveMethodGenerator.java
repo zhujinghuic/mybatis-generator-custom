@@ -1,5 +1,5 @@
 /**
- *    Copyright 2006-2017 the original author or authors.
+ *    Copyright 2006-2016 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -29,10 +29,10 @@ import org.mybatis.generator.api.dom.java.Parameter;
  * @author Jeff Butler
  * 
  */
-public class BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator extends
+public class BatchUpdateByPrimaryKeySelectiveMethodGenerator extends
         AbstractJavaMapperMethodGenerator {
 
-    public BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator() {
+    public BatchUpdateByPrimaryKeySelectiveMethodGenerator() {
         super();
     }
 
@@ -45,33 +45,32 @@ public class BatchUpdateByPrimaryKeyWithBLOBsMethodGenerator extends
             parameterType = new FullyQualifiedJavaType("java.util.List",introspectedTable
                     .getRecordWithBLOBsType());
         } else {
-            parameterType = new FullyQualifiedJavaType("java.util.List",introspectedTable.getBaseRecordType());
+            parameterType = new FullyQualifiedJavaType("java.util.List",introspectedTable
+                    .getBaseRecordType());
         }
-        
+
         importedTypes.add(parameterType);
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setReturnType(FullyQualifiedJavaType.getIntInstance());
-
         method.setName(introspectedTable
-                .getBatchUpdateByPrimaryKeyWithBLOBsStatementId());
-//        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
-
-        String contextq = "批量更新";
-        context.getCommentGenerator().addGeneralMethodComment(method,
-                introspectedTable,contextq);
-
+                .getBatchUpdateByPrimaryKeySelectiveStatementId());
+        
         Parameter parameter = new Parameter(parameterType, "list");
         StringBuilder sb = new StringBuilder();
         sb.append("@Param(\"list\")"); //$NON-NLS-1$
         parameter.addAnnotation(sb.toString());
         method.addParameter(parameter); //$NON-NLS-1$
-        
-        addMapperAnnotations(method);
 
+        String contextq = "根据ID批量动态更新记录";
+        context.getCommentGenerator().addGeneralMethodComment(method,
+                introspectedTable,contextq);
+
+        addMapperAnnotations(method);
+        
         if (context.getPlugins()
-                .clientUpdateByPrimaryKeyWithBLOBsMethodGenerated(method,
+                .clientUpdateByPrimaryKeySelectiveMethodGenerated(method,
                         interfaze, introspectedTable)) {
             addExtraImports(interfaze);
             interfaze.addImportedTypes(importedTypes);

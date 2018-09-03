@@ -44,12 +44,16 @@ public class BatchInsertSelectiveMethodGenerator extends
         method.setVisibility(JavaVisibility.PUBLIC);
         method.setName(introspectedTable.getBatchInsertSelectiveStatementId());
 
-        FullyQualifiedJavaType parameterType = introspectedTable.getRules()
-                .calculateAllFieldsClass();
+        FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType("java.util.List",introspectedTable.getBaseRecordType());
 
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
         importedTypes.add(parameterType);
-        method.addParameter(new Parameter(parameterType, "record")); //$NON-NLS-1$
+        
+        Parameter parameter = new Parameter(parameterType, "list");
+        StringBuilder sb = new StringBuilder();
+        sb.append("@Param(\"list\")"); //$NON-NLS-1$
+        parameter.addAnnotation(sb.toString());
+        method.addParameter(parameter); //$NON-NLS-1$
 
         String contextq = "批量插入记录";
         context.getCommentGenerator().addGeneralMethodComment(method,

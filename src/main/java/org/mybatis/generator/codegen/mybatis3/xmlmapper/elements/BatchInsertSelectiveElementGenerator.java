@@ -69,13 +69,17 @@ public class BatchInsertSelectiveElementGenerator extends
             }
         }
         
+        XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
+        ifElement.addAttribute(new Attribute("test", "list.size() != 0")); //$NON-NLS-1$ //$NON-NLS-2$
+        
         XmlElement forEeachElement = new XmlElement("foreach"); //$NON-NLS-1$
         forEeachElement.addAttribute(new Attribute("collection", "list")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("index", "index")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("item", prefix)); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("separator", ";")); //$NON-NLS-1$ //$NON-NLS-2$
         
-        answer.addElement(forEeachElement);
+        answer.addElement(ifElement);
+        ifElement.addElement(forEeachElement);
 
         StringBuilder sb = new StringBuilder();
 

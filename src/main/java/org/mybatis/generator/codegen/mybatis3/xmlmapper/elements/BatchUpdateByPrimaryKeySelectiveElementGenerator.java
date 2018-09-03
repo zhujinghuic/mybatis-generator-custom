@@ -15,10 +15,7 @@
  */
 package org.mybatis.generator.codegen.mybatis3.xmlmapper.elements;
 
-import java.util.Iterator;
-
 import org.mybatis.generator.api.IntrospectedColumn;
-import org.mybatis.generator.api.dom.OutputUtilities;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
@@ -30,76 +27,72 @@ import org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities;
  * @author Jeff Butler
  * 
  */
-public class BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
+public class BatchUpdateByPrimaryKeySelectiveElementGenerator extends
         AbstractXmlElementGenerator {
 
-    private boolean isSimple;
-
-    public BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator(boolean isSimple) {
+    public BatchUpdateByPrimaryKeySelectiveElementGenerator() {
         super();
-        this.isSimple = isSimple;
     }
 
     @Override
     public void addElements(XmlElement parentElement) {
     	String prefix = "item";
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
+
+        answer.addAttribute(new Attribute(
+                "id", introspectedTable.getBatchUpdateByPrimaryKeySelectiveStatementId())); //$NON-NLS-1$
+
+//        String parameterType;
+//
+//        if (introspectedTable.getRules().generateRecordWithBLOBsClass()) {
+//            parameterType = introspectedTable.getRecordWithBLOBsType();
+//        } else {
+//            parameterType = introspectedTable.getBaseRecordType();
+//        }
+//
+//        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
+//                parameterType));
+
+        context.getCommentGenerator().addComment(answer);
         
         XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
         ifElement.addAttribute(new Attribute("test", "list.size() != 0")); //$NON-NLS-1$ //$NON-NLS-2$
         
+        answer.addElement(ifElement);
         XmlElement forEeachElement = new XmlElement("foreach"); //$NON-NLS-1$
         forEeachElement.addAttribute(new Attribute("collection", "list")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("index", "index")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("item", prefix)); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("separator", ";")); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        answer.addElement(ifElement);
-        
-        answer.addAttribute(new Attribute(
-                "id", introspectedTable.getBatchUpdateByPrimaryKeyWithBLOBsStatementId())); //$NON-NLS-1$
-//        answer.addAttribute(new Attribute("parameterType", //$NON-NLS-1$
-//                introspectedTable.getBaseRecordType()));
-
-        context.getCommentGenerator().addComment(answer);
+        ifElement.addElement(forEeachElement);
 
         StringBuilder sb = new StringBuilder();
+
         sb.append("update "); //$NON-NLS-1$
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         forEeachElement.addElement(new TextElement(sb.toString()));
-        
-        ifElement.addElement(forEeachElement);
 
-        // set up for first column
-        sb.setLength(0);
-        sb.append("set "); //$NON-NLS-1$
+        XmlElement dynamicElement = new XmlElement("set"); //$NON-NLS-1$
+        forEeachElement.addElement(dynamicElement);
 
-        Iterator<IntrospectedColumn> iter;
-        if (isSimple) {
-            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getNonPrimaryKeyColumns()).iterator();
-        } else {
-            iter = ListUtilities.removeGeneratedAlwaysColumns(introspectedTable.getBaseColumns()).iterator();
-        }
-        while (iter.hasNext()) {
-            IntrospectedColumn introspectedColumn = iter.next();
+        for (IntrospectedColumn introspectedColumn : ListUtilities.removeGeneratedAlwaysColumns(introspectedTable
+                .getNonPrimaryKeyColumns())) {
+            sb.setLength(0);
+            sb.append(prefix+"."+introspectedColumn.getJavaProperty());
+            sb.append(" != null"); //$NON-NLS-1$
+            XmlElement isNotNullElement = new XmlElement("if"); //$NON-NLS-1$
+            isNotNullElement.addAttribute(new Attribute("test", sb.toString())); //$NON-NLS-1$
+            dynamicElement.addElement(isNotNullElement);
 
+            sb.setLength(0);
             sb.append(MyBatis3FormattingUtilities
                     .getEscapedColumnName(introspectedColumn));
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn,prefix+"."));
+            sb.append(',');
 
-            if (iter.hasNext()) {
-                sb.append(',');
-            }
-
-            forEeachElement.addElement(new TextElement(sb.toString()));
-
-            // set up for the next column
-            if (iter.hasNext()) {
-                sb.setLength(0);
-                OutputUtilities.xmlIndent(sb, 1);
-            }
+            isNotNullElement.addElement(new TextElement(sb.toString()));
         }
 
         boolean and = false;
@@ -118,11 +111,11 @@ public class BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn,prefix+"."));
-            forEeachElement.addElement(new TextElement(sb.toString()));
+            answer.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()
-                .sqlMapUpdateByPrimaryKeyWithoutBLOBsElementGenerated(answer,
+                .sqlMapUpdateByPrimaryKeySelectiveElementGenerated(answer,
                         introspectedTable)) {
             parentElement.addElement(answer);
         }
