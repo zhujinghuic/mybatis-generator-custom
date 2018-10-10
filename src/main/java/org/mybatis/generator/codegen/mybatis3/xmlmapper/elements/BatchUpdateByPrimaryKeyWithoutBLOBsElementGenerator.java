@@ -45,16 +45,12 @@ public class BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
     	String prefix = "item";
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
         
-        XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
-        ifElement.addAttribute(new Attribute("test", "list.size() != 0")); //$NON-NLS-1$ //$NON-NLS-2$
         
         XmlElement forEeachElement = new XmlElement("foreach"); //$NON-NLS-1$
         forEeachElement.addAttribute(new Attribute("collection", "list")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("index", "index")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("item", prefix)); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("separator", ";")); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        answer.addElement(ifElement);
         
         answer.addAttribute(new Attribute(
                 "id", introspectedTable.getBatchUpdateByPrimaryKeyWithBLOBsStatementId())); //$NON-NLS-1$
@@ -68,7 +64,7 @@ public class BatchUpdateByPrimaryKeyWithoutBLOBsElementGenerator extends
         sb.append(introspectedTable.getFullyQualifiedTableNameAtRuntime());
         forEeachElement.addElement(new TextElement(sb.toString()));
         
-        ifElement.addElement(forEeachElement);
+        answer.addElement(forEeachElement);
 
         // set up for first column
         sb.setLength(0);

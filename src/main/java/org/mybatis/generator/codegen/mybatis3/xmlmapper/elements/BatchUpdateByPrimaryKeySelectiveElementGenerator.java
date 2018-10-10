@@ -55,16 +55,12 @@ public class BatchUpdateByPrimaryKeySelectiveElementGenerator extends
 
         context.getCommentGenerator().addComment(answer);
         
-        XmlElement ifElement = new XmlElement("if"); //$NON-NLS-1$
-        ifElement.addAttribute(new Attribute("test", "list.size() != 0")); //$NON-NLS-1$ //$NON-NLS-2$
-        
-        answer.addElement(ifElement);
         XmlElement forEeachElement = new XmlElement("foreach"); //$NON-NLS-1$
         forEeachElement.addAttribute(new Attribute("collection", "list")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("index", "index")); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("item", prefix)); //$NON-NLS-1$ //$NON-NLS-2$
         forEeachElement.addAttribute(new Attribute("separator", ";")); //$NON-NLS-1$ //$NON-NLS-2$
-        ifElement.addElement(forEeachElement);
+        answer.addElement(forEeachElement);
 
         StringBuilder sb = new StringBuilder();
 
@@ -111,7 +107,7 @@ public class BatchUpdateByPrimaryKeySelectiveElementGenerator extends
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn,prefix+"."));
-            answer.addElement(new TextElement(sb.toString()));
+            forEeachElement.addElement(new TextElement(sb.toString()));
         }
 
         if (context.getPlugins()

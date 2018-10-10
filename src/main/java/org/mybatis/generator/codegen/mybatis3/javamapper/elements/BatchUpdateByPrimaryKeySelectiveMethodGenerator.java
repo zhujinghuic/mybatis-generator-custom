@@ -49,7 +49,8 @@ public class BatchUpdateByPrimaryKeySelectiveMethodGenerator extends
                     .getBaseRecordType());
         }
 
-        importedTypes.add(parameterType);
+        FullyQualifiedJavaType listType = new FullyQualifiedJavaType("java.util.List");
+        importedTypes.add(listType);
 
         Method method = new Method();
         method.setVisibility(JavaVisibility.PUBLIC);

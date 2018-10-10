@@ -47,7 +47,8 @@ public class BatchInsertSelectiveMethodGenerator extends
         FullyQualifiedJavaType parameterType = new FullyQualifiedJavaType("java.util.List",introspectedTable.getBaseRecordType());
 
         Set<FullyQualifiedJavaType> importedTypes = new TreeSet<FullyQualifiedJavaType>();
-        importedTypes.add(parameterType);
+        FullyQualifiedJavaType listType = new FullyQualifiedJavaType("java.util.List");
+        importedTypes.add(listType);
         
         Parameter parameter = new Parameter(parameterType, "list");
         StringBuilder sb = new StringBuilder();
