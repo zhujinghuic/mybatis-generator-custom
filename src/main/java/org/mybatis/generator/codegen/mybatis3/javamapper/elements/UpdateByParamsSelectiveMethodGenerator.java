@@ -61,7 +61,7 @@ public class UpdateByParamsSelectiveMethodGenerator extends
                 "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
         
         Parameter parameter = new Parameter(parameterType, "params");
-        Parameter coditionter = new Parameter(parameterType, "codition");
+        Parameter coditionter = new Parameter(parameterType, "coditions");
         
         StringBuilder sb = new StringBuilder();
         
@@ -70,7 +70,7 @@ public class UpdateByParamsSelectiveMethodGenerator extends
         method.addParameter(parameter); //$NON-NLS-1$
         
         sb.setLength(0);
-        sb.append("@Param(\"condition\")"); //$NON-NLS-1$
+        sb.append("@Param(\"conditions\")"); //$NON-NLS-1$
         coditionter.addAnnotation(sb.toString());
         method.addParameter(coditionter); //$NON-NLS-1$
 

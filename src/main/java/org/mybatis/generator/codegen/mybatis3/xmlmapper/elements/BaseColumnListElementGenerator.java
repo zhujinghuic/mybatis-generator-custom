@@ -47,26 +47,14 @@ public class BaseColumnListElementGenerator extends AbstractXmlElementGenerator 
         Iterator<IntrospectedColumn> iter = introspectedTable
                 .getNonBLOBColumns().iterator();
         while (iter.hasNext()) {
-        	String column = MyBatis3FormattingUtilities.getSelectListPhrase(iter
-                    .next());
-        	
-        	if(column == null && sb.length() != 0) {
-        		String str = sb.substring(0, sb.length()-1);
-        		sb = new StringBuilder(str);
-        		continue;
-        	}
-        	
-            sb.append(column);
-            
+            sb.append(MyBatis3FormattingUtilities.getSelectListPhrase(iter
+                    .next()));
+
             if (iter.hasNext()) {
                 sb.append(", "); //$NON-NLS-1$
             }
-            
+
             if (sb.length() > 80) {
-            	 if (!iter.hasNext()) {
-            		 String str = sb.substring(0, sb.length()-1);
-             		sb = new StringBuilder(str); 
-            	 }
                 answer.addElement(new TextElement(sb.toString()));
                 sb.setLength(0);
             }

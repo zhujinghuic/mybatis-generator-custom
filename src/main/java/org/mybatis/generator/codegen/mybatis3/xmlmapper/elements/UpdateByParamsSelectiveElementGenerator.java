@@ -91,7 +91,7 @@ public class UpdateByParamsSelectiveElementGenerator extends
             sb.append(" = "); //$NON-NLS-1$
             sb.append(MyBatis3FormattingUtilities
                     .getParameterClause(introspectedColumn,coditions));
-            sb.append(',');
+//            sb.append(',');
 
             isNotNullElement.addElement(new TextElement(sb.toString()));
         }
