@@ -20,7 +20,7 @@ public class UpdateByParamsSelectiveElementGenerator extends
     @Override
     public void addElements(XmlElement parentElement) {
     	String params = "params.";
-    	String coditions = "coditions.";
+    	String coditions = "conditions.";
         XmlElement answer = new XmlElement("update"); //$NON-NLS-1$
 
         answer.addAttribute(new Attribute(

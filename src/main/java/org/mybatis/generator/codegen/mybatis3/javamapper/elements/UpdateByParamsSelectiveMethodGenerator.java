@@ -61,7 +61,7 @@ public class UpdateByParamsSelectiveMethodGenerator extends
                 "org.apache.ibatis.annotations.Param")); //$NON-NLS-1$
         
         Parameter parameter = new Parameter(parameterType, "params");
-        Parameter coditionter = new Parameter(parameterType, "coditions");
+        Parameter coditionter = new Parameter(parameterType, "conditions");
         
         StringBuilder sb = new StringBuilder();
         
