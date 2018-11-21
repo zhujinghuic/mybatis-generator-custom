@@ -601,8 +601,9 @@ public class MyBatisGeneratorConfigurationParser {
         String targetProject = attributes.getProperty("targetProject"); //$NON-NLS-1$
 
         javaModelGeneratorConfiguration.setTargetPackage(targetPackage);
-        int index = targetPackage.lastIndexOf(".");
-        String fix = targetPackage.substring(index);
+        //建材易
+        int index = targetPackage.indexOf("model");
+        String fix = targetPackage.substring(index+5);
         javaModelGeneratorConfiguration.setDtoTargetPackage("com.eshop.dto"+fix);
         javaModelGeneratorConfiguration.setTargetProject(targetProject);
 
